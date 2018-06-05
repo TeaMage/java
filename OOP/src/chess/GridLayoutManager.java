@@ -14,6 +14,7 @@ public class GridLayoutManager extends JFrame {
 
 	public GridLayoutManager() {
 		super("Schach!");
+		System.out.println("läufT!");
 		contents = getContentPane();
 		contents.setLayout(new GridLayout(8, 8));
 		ButtonHandler buttonHandler = new ButtonHandler();
