@@ -7,18 +7,18 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Board extends JFrame {
-	public JButton[][] buttons = new JButton[8][8];
+	public Figure[][] buttons = new Figure[8][8];
+	ImageIcon bauer = new ImageIcon("Images\\bauerWhite.png");
 
 	public Board() {
 		super("Schach!");
 
 		setLayout(new GridLayout(8, 8));
 
-		Figure bauer = new Figure(this, new ImageIcon("Images\\bauerWhite.png"));
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				buttons[i][j] = new JButton();
-				buttons[i][j].addMouseListener(new ButtonListener(this));
+				buttons[i][j] = new Figure(this, bauer,true);
+				buttons[i][j].addMouseListener(new ButtonListener(this,buttons[i][j]));
 				add(buttons[i][j]);
 			}
 		}
