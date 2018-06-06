@@ -1,19 +1,15 @@
 package myChess;
 
-import java.util.*;
-import javax.swing.*;
-
-import java.awt.*;
 import java.awt.event.*;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
-public class Figure extends JButton {
-	public Board board;
-	private ImageIcon icon;
-	public boolean canMove;
+abstract class Figure extends ImageIcon {
+	abstract void move();
+	public Figure(String filename, String player) {
 
-	public Figure(Board board, ImageIcon icon, boolean canMove) {
-		this.board = board;
-		this.icon = icon;
-		this.canMove = canMove;
+		super(filename, player);
+
 	}
 }
