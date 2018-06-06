@@ -21,8 +21,6 @@ public class Mines extends JFrame {
 		statusbar = new JLabel("");
 		add(statusbar, BorderLayout.SOUTH);
 
-		add(new Field(statusbar));
-
 		setResizable(false);
 		setVisible(true);
 	}
