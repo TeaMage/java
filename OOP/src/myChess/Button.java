@@ -6,20 +6,23 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 public class Button extends JButton {
-	public boolean isActive;
 
-	public boolean isActive() {
-		return isActive;
+
+	public boolean canMoveto(int destRow, int destCol, int originRow, int originCol) {
+		
+		if (Math.abs(destRow - originRow) < 2 && Math.abs(destCol - originCol) == 0) {
+			return true;
+		}
+		return false;
 	}
 
-	public void setActive() {
-		this.isActive = true;
-	}
-	public void removeActive() {
-		this.isActive= false;
-	}
+	public boolean isActive = false;
+	Board board;
+	public String player;
+	public String type;
+	ImageIcon icon;
 
-	public Button(boolean isActive) {
-		this.isActive = isActive;
+	public Button(Board board) {
+
 	}
 }
