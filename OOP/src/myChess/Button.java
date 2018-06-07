@@ -10,14 +10,51 @@ public class Button extends JButton {
 	// 2. spezifisch: steht was im weg?
 	// 3 steht der könig im schach wenn ich dort hin ziehe?
 
-	public int[] canMoveto(int destRow, int destCol, int originRow, int originCol) {
-		int[] rowsCols = new int[2];
-		if (Math.abs(destRow - originRow) < 2 && Math.abs(destCol - originCol) == 0) {
-			return null;
+	public boolean canMoveto(int destRow, int destCol, int originRow, int originCol) {
+		boolean hit = false;
+		int control;
+		int control2 = 0;
+		if (board.buttons[originRow][originCol].player.equals("white")) {
+			if (board.buttons[originRow][originCol].hasMoved == false) {
+				control = -2;
+				control2 = -1;
+			} else {
+				control = -1;
+
+			}
+
+		} else {
+			if (board.buttons[originRow][originCol].hasMoved == false) {
+				control = 2;
+				control2 = 1;
+			} else {
+				control = 1;
+			}
 		}
-		rowsCols[0] = destRow;
-		rowsCols[1] = destCol;
-		return rowsCols;
+		if ((destRow - originRow == control || destRow - originRow == control2) && Math.abs(destCol - originCol) < 2) {
+			if (Math.abs(destCol - originCol) == 1) {
+				hit = true;
+			}
+			if (canActuallyMove(destRow, destCol, hit)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean canActuallyMove(int destRow, int destCol, boolean hit) {
+		if (hit == false) {
+			if (board.buttons[destRow][destCol].getIcon() == null) {
+				return true;
+			}
+			return false;
+		} else {
+			if (board.buttons[destRow][destCol].getIcon() == null) {
+				return false;
+			} else {
+				return true;
+			}
+		}
 	}
 
 	public boolean isActive = false;
@@ -25,8 +62,10 @@ public class Button extends JButton {
 	public String player;
 	public String type;
 	ImageIcon icon;
+	boolean hasMoved = false;
 
 	public Button(Board board) {
+		this.board = board;
 
 	}
 }
