@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public class GridLayoutManager extends JFrame {
 	private Container contents;
-	
+
 	private JButton[][] squares = new JButton[8][8];
 	private Color colorBlack = Color.BLACK;
 	private int row = 7;

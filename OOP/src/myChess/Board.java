@@ -14,40 +14,113 @@ public class Board extends JFrame {
 	ImageIcon bauerWhite = new ImageIcon("Images\\bauerWhite.png");
 	ImageIcon königBlack = new ImageIcon("Images\\königBlack.png");
 	ImageIcon königWhite = new ImageIcon("Images\\königWhite.png");
-	public int destRow;
-	public int destCol;
-	public int originCol;
-	public int originRow;
+	public Integer dR;
+	public Integer dC;
+	public Integer oR;
+	public Integer oC;
 	public String activeType;
+
+	public boolean hasRights() {
+		if (buttons[oR][oC].player.equals(rights)) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean canMoveto() {
+
+		int rowDelta = Math.abs(dR - oR);
+		int colDelta = Math.abs(dC - oC);
+		String player = buttons[oR][oC].player;
+
+		if (player.equals("white")) {
+
+			if (rowDelta == 1 && colDelta == 1 && buttons[oR - 1][oC - 1].getIcon() != null
+					&& buttons[oR - 1][oC - 1].player.equals(rights) == false) {
+				if (dR < oR) {
+					return true;
+				}
+			}
+
+			if (buttons[oR][oC].hasMoved) {
+				if (rowDelta == 1 && colDelta == 0) {
+					if (dR < oR) {
+						return true;
+					}
+				}
+			} else if ((rowDelta == 2 || rowDelta == 1) && colDelta == 0) {
+				if (dR < oR) {
+					return true;
+				}
+			}
+
+		} else {
+			if (rowDelta == 1 && colDelta == 1 && buttons[oR + 1][oC + 1].getIcon() != null
+					&& buttons[oR + 1][oC + 1].player.equals(rights) == false) {
+				if (dR > oR) {
+					return true;
+				}
+			}
+
+			if (buttons[oR][oC].hasMoved) {
+				if (rowDelta == 1 && colDelta == 0) {
+					if (dR > oR) {
+						return true;
+					}
+				}
+			} else if ((rowDelta == 2 || rowDelta == 1) && colDelta == 0) {
+				if (dR > oR) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean isFree() {
+		if (rights.equals("white")) {
+			if (buttons[oR - 1][oC].getIcon() == null) {
+				return true;
+			}
+		} else {
+			if (buttons[oR + 1][oC].getIcon() == null) {
+				return true;
+			}
+		}
+		return false;
+
+	}
 
 	public void processClick() {
 
-		activeType = buttons[originRow][originCol].type;
-		if (buttons[originRow][originCol].canMoveto(destRow, destCol, originRow, originCol)) {
-
-			move(destRow, destCol, originRow, originCol);
+		if (canMoveto()) {
+			if (isFree()) {
+				move();
+			}
 
 		} else {
-			buttons[originRow][originCol].isActive = false;
+
+			oR = null;
+			oC = null;
 		}
 	}
 
-	public void move(int destRow, int destCol, int originRow, int originCol) {
-		if (buttons[originRow][originCol].player.equals("white")) {
+	public void move() {
+		if (buttons[oR][oC].player.equals("white")) {
 			rights = "black";
 		} else {
 			rights = "white";
 		}
 
-		buttons[destRow][destCol].setIcon(buttons[originRow][originCol].icon);
-		buttons[destRow][destCol].icon = buttons[originRow][originCol].icon;
-		buttons[destRow][destCol].isActive = false;
-		buttons[originRow][originCol].isActive = false;
-		buttons[originRow][originCol].setIcon(null);
-		buttons[originRow][originCol].icon = null;
-		buttons[destRow][destCol].player = buttons[originRow][originCol].player;
-		buttons[destRow][destCol].type = buttons[originRow][originCol].type;
-		buttons[destRow][destCol].hasMoved = true;
+		buttons[dR][dC].setIcon(buttons[oR][oC].icon);
+		buttons[dR][dC].icon = buttons[oR][oC].icon;
+		buttons[oR][oC].setIcon(null);
+		buttons[oR][oC].icon = null;
+		buttons[dR][dC].player = buttons[oR][oC].player;
+		buttons[dR][dC].type = buttons[oR][oC].type;
+		buttons[dR][dC].hasMoved = true;
+		oR = null;
+		oC = null;
 		return;
 	}
 
@@ -55,7 +128,7 @@ public class Board extends JFrame {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 
-				buttons[i][j] = new Button(this);
+				buttons[i][j] = new Button();
 
 				if ((i + j) % 2 != 0) {
 					buttons[i][j].setBackground(black);
@@ -86,7 +159,7 @@ public class Board extends JFrame {
 		buttons[0][4].setIcon(königBlack);
 		buttons[0][4].player = "black";
 		buttons[0][4].type = "könig";
-		
+
 		buttons[7][4].icon = königWhite;
 		buttons[7][4].setIcon(königWhite);
 		buttons[7][4].player = "white";
