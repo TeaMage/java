@@ -14,9 +14,10 @@ public class Board extends JFrame {
 	ImageIcon bauerWhite = new ImageIcon("Images\\bauerWhite.png");
 
 	public int[][] getPawnMoves() {
+		int[] notPoss = new int[100];
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				buttons[i][j].canMoveto(i,j);
+				notposs[i] = buttons[oringRow][originCol].canMoveto(i, j, oringRow, originCol);
 			}
 		}
 
