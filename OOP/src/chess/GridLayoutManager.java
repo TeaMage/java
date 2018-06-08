@@ -64,7 +64,6 @@ public class GridLayoutManager extends JFrame {
 	private class ButtonHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
-			System.out.println("m");
 			for (int i = 0; i < 8; i++) {
 				for (int j = 0; j < 8; j++) {
 					if (source == squares[i][j]) {
