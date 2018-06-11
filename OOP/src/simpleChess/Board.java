@@ -21,6 +21,9 @@ public class Board extends JFrame {
 	public Integer[][] moves = new Integer[100][2];
 	public Integer[][] variable = new Integer[100][2];
 	public Integer[][] possibleMoves = new Integer[100][2];
+	public Integer[][] escapeMoves = new Integer[100][2];
+	public Integer[][] validFields = new Integer[100][2];
+
 	public Figure selectedFigure;
 	public Figure[] figuresByColor = new Figure[16];
 	public Integer kingRow;
@@ -36,7 +39,6 @@ public class Board extends JFrame {
 					selectedFigure = figures[i];
 					originRow = figures[i].row;
 					originCol = figures[i].col;
-
 					canMoveTo(x);
 					x++;
 				}
@@ -45,9 +47,13 @@ public class Board extends JFrame {
 		for (int j = 0; j < possibleMoves.length; j++) {
 			possibleMoves[j][0] = moves[j][0];
 			possibleMoves[j][1] = moves[j][1];
-			if (moves[j][1] != null) {
-				buttons[moves[j][0]][moves[j][1]].setBackground(Color.GREEN);
-			}
+		}
+	}
+
+	public void getThreatenedFields() {
+		for (int j = 0; j < possibleMoves.length; j++) {
+			threatenedFields[j][0] = possibleMoves[j][0];
+			threatenedFields[j][1] = possibleMoves[j][1];
 		}
 	}
 
@@ -78,6 +84,20 @@ public class Board extends JFrame {
 		}
 	}
 
+	public void emptyMoves() {
+		for (int i = 0; i < 100; i++) {
+			moves[i][0] = null;
+			moves[i][1] = null;
+		}
+	}
+
+	public void moveMoves() {
+		for (int k = 0; k < moves.length; k++) {
+			possibleMoves[k][0] = moves[k][0];
+			possibleMoves[k][1] = moves[k][1];
+		}
+	}
+
 	public boolean hasMoves() {
 		for (int i = 0; i < moves.length; i++) {
 			if (moves[i][0] != null) {
@@ -88,29 +108,35 @@ public class Board extends JFrame {
 	}
 
 	public void getAllMoves() {
-		/*
-		 * for (int k = 0; k < moves.length; k++) { moves[k][0] = null; moves[k][1] =
-		 * null; } int x = 0; for (int i = 0; i < figuresByColor.length; i++) {
-		 * 
-		 * if (figuresByColor[i] != null) { originRow = figuresByColor[i].row; originCol
-		 * = figuresByColor[i].col; selectedFigure = figuresByColor[i]; canMoveTo(); for
-		 * (int j = 0; j < moves.length && moves[j][0] != null; j++) {
-		 * 
-		 * threatenedFields[x][0] = moves[j][0]; threatenedFields[x][1] = moves[j][1];
-		 * x++;
-		 * 
-		 * } for (int k = 0; k < moves.length; k++) { moves[k][0] = null; moves[k][1] =
-		 * null; }
-		 * 
-		 * } }
-		 */
+		int x = 0;
+		for (int i = 0; i < figuresByColor.length; i++) {
+			if (figuresByColor[i] != null) {
+				originRow = figuresByColor[i].row;
+				originCol = figuresByColor[i].col;
+				selectedFigure = figuresByColor[i];
+				canMoveTo(0);
+				for (int j = 0; j < moves.length && moves[j][0] != null; j++) {
+					threatenedFields[x][0] = moves[j][0];
+					threatenedFields[x][1] = moves[j][1];
+					x++;
+				}
+			}
+		}
 	}
 
-	public void getFiguresByPlayer() {
+	public void highlight() {
+		for (int k = 0; k < moves.length; k++) {
+			if (moves[k][0] != null) {
+				buttons[moves[k][0]][moves[k][1]].setBackground(Color.GREEN);
+			}
+		}
+	}
+
+	public void getFiguresByPlayer(String player) {
 		int x = 0;
 		for (int g = 0; g < figures.length; g++) {
 			if (figures[g] != null) {
-				if (figures[g].player.equals(rights)) {
+				if (figures[g].player.equals(player)) {
 					figuresByColor[x] = figures[g];
 					x++;
 				}
@@ -130,50 +156,29 @@ public class Board extends JFrame {
 	}
 
 	public void processRightClick(int row, int col) {
-
+		repaint();
 		if (check) {
 			getKing(rights);
-			if (row == kingRow && col == kingCol) {
-				originRow = row;
-				originCol = col;
-				if (figures[getFigureIndex(row, col)].player.equals(rights)) {
-					int index = getFigureIndex(row, col);
-					selectedFigure = getFig(index);
-					originRow = row;
-					originCol = col;
-				}
-			} else {
-				originRow = null;
-			}
+			int index = getFigureIndex(row, col);
+			selectedFigure = getFig(index);
+			originRow = row;
+			originCol = col;
+			canMoveTo(0);
+			// array mit möglichen moves
+			highlight();
+
 		} else {
 			if (figures[getFigureIndex(row, col)].player.equals(rights)) {
 				int index = getFigureIndex(row, col);
 				selectedFigure = getFig(index);
 				originRow = row;
 				originCol = col;
-
-				emptyPossibleMoves();
-				getMoves(rights);
-				selectedFigure = getFig(index);
-				originRow = row;
-				originCol = col;
-
+				canMoveTo(0);
+				highlight();
 				buttons[row][col].setBackground(Color.GREEN);
-				System.out.println(Arrays.deepToString(possibleMoves));
 			}
 		}
-
 	}
-
-	/*
-	 * if (row == kingRow && col == kingCol) {
-	 * 
-	 * selectedFigure = figures[getFigureIndex(row, col)]; originRow = row;
-	 * originCol = col; canMoveTo(); checkCheckMate(); if (hasMoves()) { check =
-	 * false; emptyThreats(); } else { System.out.println("lost"); }
-	 * 
-	 * } } }else{selectedFigure=null;}}
-	 */
 
 	public Figure getFig(int index) {
 		return figures[index];
@@ -181,6 +186,17 @@ public class Board extends JFrame {
 
 	public boolean isInMoveSet(int row, int col) {
 		for (int i = 0; i < moves.length; i++) {
+			if (moves[i][0] != null) {
+				if (moves[i][0] == row && moves[i][1] == col) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean isInPossibleMoveSet(int row, int col) {
+		for (int i = 0; i < possibleMoves.length; i++) {
 			if (possibleMoves[i][0] != null) {
 				if (possibleMoves[i][0] == row && possibleMoves[i][1] == col) {
 					return true;
@@ -507,6 +523,15 @@ public class Board extends JFrame {
 		}
 	}
 
+	public void fillEscapeMoves() {
+		for (int j = 0; j < possibleMoves.length; j++) {
+			if (moves[j] != null && moves[j][0] != null) {
+				escapeMoves[j][0] = moves[j][0];
+				escapeMoves[j][1] = moves[j][1];
+			}
+		}
+	}
+
 	public boolean isThreatened() {
 		for (int i = 0; i < possibleMoves.length; i++) {
 			if (kingRow == possibleMoves[i][0] && kingCol == possibleMoves[i][1]) {
@@ -516,34 +541,123 @@ public class Board extends JFrame {
 		return false;
 	}
 
-	public void processLeftClick(int row, int col) {
+	public boolean isValidMove() {
+		for (int i = 0; i < validFields.length; i++) {
+			if (validFields[i][0] == destRow && validFields[i][1] == destCol) {
+				return true;
+			}
+		}
+		return false;
+	}
 
+	public void makeMovesCheckedPlayer() {
+		getFiguresByPlayer(rights);
+		int x = 0;
+		for (int i = 0; i < figuresByColor.length; i++) {
+			if (figuresByColor[i] != null) {
+				originRow = figuresByColor[i].row;
+				originCol = figuresByColor[i].col;
+				selectedFigure = figuresByColor[i];
+				canMoveTo(0);
+				fillEscapeMoves();
+				for (int j = 0; j < escapeMoves.length; j++) {
+					if (escapeMoves[i][0] != null) {
+						destRow = escapeMoves[i][0];
+						destCol = escapeMoves[i][1];
+						move();
+						emptyMoves();
+						emptyPossibleMoves();
+						getMoves(getOtherColor());
+						getKing(rights);
+						if (isThreatened() == false) {
+							validFields[x][0] = destRow;
+							validFields[x][1] = destCol;
+						}
+					}
+
+				}
+				figuresByColor[i].row = originRow;
+				figuresByColor[i].col = originCol;
+			}
+
+		}
+		originRow = null;
+		originCol = null;
+		selectedFigure = null;
+	}
+
+	public void processLeftClick(int row, int col) {
+		System.out.println(check);
 		if (originRow != null) {
 			destRow = row;
 			destCol = col;
+			if (check) {
+				if (isValidMove()) {
+					if (isInMoveSet(destRow, destCol)) {
+						move();
+						repaint();
+						emptyMoves();
+
+						getMoves(rights);
+						rights = getOtherColor();
+						getKing(rights);
+
+						if (isThreatened()) {
+							check = true;
+							getThreatenedFields();
+							emptyMoves();
+							emptyPossibleMoves();
+							makeMovesCheckedPlayer();
+
+						} else {
+							emptyMoves();
+							emptyPossibleMoves();
+
+						}
+					} else {
+						check = false;
+						originRow = null;
+						originCol = null;
+						selectedFigure = null;
+						emptyMoves();
+
+					}
+				} else {
+					System.out.println("checkmate");
+				}
+				emptyPossibleMoves();
+			}
 			if (isInMoveSet(destRow, destCol)) {
 				move();
 				repaint();
-				emptyPossibleMoves();
+				emptyMoves();
+
 				getMoves(rights);
 				rights = getOtherColor();
-
 				getKing(rights);
-
+				// moveMoves();
+				// highlight();
 				if (isThreatened()) {
 					check = true;
-					// fillVariable();
+					getThreatenedFields();
+					emptyMoves();
+					emptyPossibleMoves();
+					makeMovesCheckedPlayer();
+
+				} else {
+					emptyMoves();
+					emptyPossibleMoves();
+
 				}
 			} else {
 				check = false;
 				originRow = null;
 				originCol = null;
 				selectedFigure = null;
-				emptyPossibleMoves();
+				emptyMoves();
+
 			}
-
 		}
-
 	}
 
 	public Integer getFigureIndex(int row, int col) {
@@ -565,10 +679,11 @@ public class Board extends JFrame {
 			int x = getFigureIndex(destRow, destCol);
 			figures[x] = null;
 		}
-
-		int index = getFigureIndex(originRow, originCol);
-		figures[index].row = destRow;
-		figures[index].col = destCol;
+		if (getFigureIndex(originRow, originCol) != null) {
+			int index = getFigureIndex(originRow, originCol);
+			figures[index].row = destRow;
+			figures[index].col = destCol;
+		}
 	}
 
 	public void newGame() {
