@@ -13,7 +13,7 @@ public class Board extends JFrame {
 	public JButton[][] buttons = new JButton[8][8];
 	public Figure[] figures = new Figure[32];
 	public ButtonListener buttonListener = new ButtonListener(this);
-	public String rights = "white";
+	public boolean player;
 	public Integer originRow;
 	public Integer originCol;
 	public Integer destRow;
@@ -157,16 +157,17 @@ public class Board extends JFrame {
 
 	public void processRightClick(int row, int col) {
 		repaint();
-		if (check) {
-			getKing(rights);
-			int index = getFigureIndex(row, col);
-			selectedFigure = getFig(index);
-			originRow = row;
-			originCol = col;
-			canMoveTo(0);
-			// array mit möglichen moves
-			highlight();
-
+		if (originRow != null) {
+			if (row == kingRow && col == kingCol) {
+				int index = getFigureIndex(row, col);
+				selectedFigure = getFig(index);
+				originRow = row;
+				originCol = col;
+				emptyMoves();
+				emptyPossibleMoves();
+				canMoveTo(0);
+				highlight();
+			}
 		} else {
 			if (figures[getFigureIndex(row, col)].player.equals(rights)) {
 				int index = getFigureIndex(row, col);
@@ -175,6 +176,7 @@ public class Board extends JFrame {
 				originCol = col;
 				canMoveTo(0);
 				highlight();
+				check = false;
 				buttons[row][col].setBackground(Color.GREEN);
 			}
 		}
@@ -587,75 +589,28 @@ public class Board extends JFrame {
 	}
 
 	public void processLeftClick(int row, int col) {
-		System.out.println(check);
 		if (originRow != null) {
 			destRow = row;
 			destCol = col;
-			if (check) {
-				if (isValidMove()) {
-					if (isInMoveSet(destRow, destCol)) {
-						move();
-						repaint();
-						emptyMoves();
-
-						getMoves(rights);
-						rights = getOtherColor();
-						getKing(rights);
-
-						if (isThreatened()) {
-							check = true;
-							getThreatenedFields();
-							emptyMoves();
-							emptyPossibleMoves();
-							makeMovesCheckedPlayer();
-
-						} else {
-							emptyMoves();
-							emptyPossibleMoves();
-
-						}
-					} else {
-						check = false;
-						originRow = null;
-						originCol = null;
-						selectedFigure = null;
-						emptyMoves();
-
-					}
-				} else {
-					System.out.println("checkmate");
-				}
-				emptyPossibleMoves();
-			}
 			if (isInMoveSet(destRow, destCol)) {
 				move();
 				repaint();
-				emptyMoves();
-
-				getMoves(rights);
 				rights = getOtherColor();
-				getKing(rights);
-				// moveMoves();
-				// highlight();
+				getMoves(rights);
 				if (isThreatened()) {
 					check = true;
-					getThreatenedFields();
-					emptyMoves();
-					emptyPossibleMoves();
-					makeMovesCheckedPlayer();
-
+					getMoves(rights);
+					rights = getOtherColor();
+					getKing(getOtherColor());
+					selectedFigure = figures[getFigureIndex(kingRow, kingCol)];
 				} else {
 					emptyMoves();
 					emptyPossibleMoves();
-
+					check = false;
+					originRow = null;
+					originCol = null;
+					selectedFigure = null;
 				}
-			} else {
-				check = false;
-				originRow = null;
-				originCol = null;
-				selectedFigure = null;
-				emptyMoves();
-
 			}
 		}
 	}
