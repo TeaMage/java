@@ -23,7 +23,6 @@ public class Board extends JFrame {
 	public Integer[][] possibleMoves = new Integer[100][2];
 	public Integer[][] escapeMoves = new Integer[100][2];
 	public Integer[][] validFields = new Integer[100][2];
-
 	public Figure selectedFigure;
 	public Figure[] figuresByColor = new Figure[16];
 	public Integer kingRow;
