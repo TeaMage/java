@@ -1,4 +1,4 @@
-package chess;
+package chessBsp;
 
 import java.awt.*;
 import javax.swing.*;
@@ -11,7 +11,7 @@ public class GridLayoutManager extends JFrame {
 	private Color colorBlack = Color.BLACK;
 	private int row = 7;
 	private int col = 1;
-	private ImageIcon knight = new ImageIcon("Images\\bauerWhite.png");
+	private ImageIcon knight = new ImageIcon("Images\\springerWhite.png");
 
 	public GridLayoutManager() {
 		super("Schach!");
