@@ -1,4 +1,5 @@
-package interfaces_abstract_classes;
+package interfacesAbstractClasses;
+
 public class Kunde extends Person implements INewsletter {
 	public int KNr;
 	

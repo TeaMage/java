@@ -1,4 +1,5 @@
-package interfaces_abstract_classes;
+package interfacesAbstractClasses;
+
 public class Verkäufer extends Mitarbeiter {
 
 	public Verkäufer(String name) {

@@ -1,4 +1,5 @@
-package interfaces_abstract_classes;
+package interfacesAbstractClasses;
+
 //Zulieferer erbt von Person
 public class Zulieferer extends Person {
 

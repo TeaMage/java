@@ -1,4 +1,5 @@
-package interfaces_abstract_classes;
+package interfacesAbstractClasses;
+
 public interface IBezahlbar {
 	void zahlen(double w);
 }

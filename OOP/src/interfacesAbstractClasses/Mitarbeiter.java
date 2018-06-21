@@ -1,4 +1,5 @@
-package interfaces_abstract_classes;
+package interfacesAbstractClasses;
+
 // Mitarbeiter erbt von Person und implementiert das Interface INewsletter
 public abstract class Mitarbeiter extends Person implements INewsletter, IBezahlbar {
 

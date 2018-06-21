@@ -1,12 +1,13 @@
-package interfaces_abstract_classes;
+package interfacesAbstractClasses;
+
 public class Entwickler extends Mitarbeiter {
 	public int year;
-
+	
 	public Entwickler(String name) {
 		super(name);
 	}
 
-	// Die abstracte Methode _muss_ implementiert werden
+	//Die abstracte Methode _muss_ implementiert werden
 	@Override
 	protected double getGehalt() {
 		if (year < 2)
