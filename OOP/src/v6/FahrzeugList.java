@@ -22,6 +22,4 @@ public class FahrzeugList<T extends Auto> extends ArrayList<T> {
 // A : +foobar(Fahrzeug) gegen die ererbung kontravarianz
 // mit der vererbung kovarianz // extends immer kovarianz
 // B +foobar(Auto)
-// nächstes mal prinzipien / Kovarianz/kontravarianz/invarianz
-// klausur quellcodew ankreuzen ob kovarianz/kontravarianz
-//& viele oop prinzipien wir machen nur eins --> SOLID PRINZIPIEN --> nicht im detail erklären, verstehen
+

@@ -1,12 +1,9 @@
-package zettel1;
+package lab01;
 
-import java.awt.Color;
-
-import java.awt.Graphics;
-import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
 
 public class MyPanel extends JPanel {
-	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.setColor(new Color(255, 0, 0));

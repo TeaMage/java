@@ -2,8 +2,7 @@ package v5;
 
 import java.io.*;
 
-// grridlayout in web/java sonst wo, ist am besten
-// transient nicht in der klausur
+
 // mit klassen arbeiten deren typ man nicht kennt
 // absolute pfade in software
 // klassen mit belibiegen typen
@@ -13,7 +12,6 @@ import java.io.*;
 // generische Methoden
 // in der klausur kommt man nicht drum rum
 // generisches Flaschenlager bauen man hat objekte weinflaschen und bierflaschen
-// nach pfingsten kovarianz, kontravarianz, invarianz schwerstes thema in oop
 public class Main {
 	/*
 	private static SerializationHelper<Rechnung> helper = new SerializationHelper<>(
