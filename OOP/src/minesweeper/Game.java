@@ -9,7 +9,6 @@ import java.util.Random;
 public class Game extends JFrame {
 
 	private final Field[][] fields = new Field[9][9];
-	private final int bombs = 10;
 	private ImageIcon[] icons = new ImageIcon[12];
 
 	private void initImages() {
@@ -91,90 +90,93 @@ public class Game extends JFrame {
 		}
 	}
 
+	private void uncoverAroundCell(int row, int col) {
+
+		if (row != 8) {
+			if (fields[row + 1][col].getBomb() == false) {
+				int mines = fields[row + 1][col].getMinesAround();
+				fields[row + 1][col].setIcon(icons[mines]);
+				if (mines == 0) {
+					uncoverAroundCell(row + 1, col);
+				}
+			}
+		}
+		if (row != 0) {
+			if (fields[row - 1][col].getBomb() == false) {
+				int mines = fields[row - 1][col].getMinesAround();
+				fields[row - 1][col].setIcon(icons[mines]);
+				if (mines == 0) {
+					uncoverAroundCell(row - 1, col);
+				}
+			}
+		}
+		if (col != 8) {
+			if (fields[row][col + 1].getBomb() == false) {
+				int mines = fields[row][col + 1].getMinesAround();
+				fields[row][col + 1].setIcon(icons[mines]);
+				if (mines == 0) {
+					uncoverAroundCell(row, col + 1);
+				}
+			}
+		}
+		if (col != 0) {
+			if (fields[row][col - 1].getBomb() == false) {
+				int mines = fields[row][col - 1].getMinesAround();
+				fields[row][col - 1].setIcon(icons[mines]);
+				if (mines == 0) {
+					uncoverAroundCell(row, col - 1);
+				}
+			}
+		}
+		if (row != 8 && col != 8) {
+			if (fields[row + 1][col + 1].getBomb() == false) {
+				int mines = fields[row + 1][col + 1].getMinesAround();
+				fields[row + 1][col + 1].setIcon(icons[mines]);
+				if (mines == 0) {
+					uncoverAroundCell(row + 1, col + 1);
+				}
+			}
+		}
+		if (row != 0 && col != 0) {
+			if (fields[row - 1][col - 1].getBomb() == false) {
+				int mines = fields[row - 1][col - 1].getMinesAround();
+				fields[row - 1][col - 1].setIcon(icons[mines]);
+				if (mines == 0) {
+					uncoverAroundCell(row - 1, col - 1);
+				}
+			}
+		}
+		if (row != 8 && col != 0) {
+			if (fields[row + 1][col - 1].getBomb() == false) {
+				int mines = fields[row + 1][col - 1].getMinesAround();
+				fields[row + 1][col - 1].setIcon(icons[mines]);
+				if (mines == 0) {
+					uncoverAroundCell(row + 1, col - 1);
+				}
+			}
+		}
+		if (row != 0 && col != 8) {
+			if (fields[row - 1][col + 1].getBomb() == false) {
+				int mines = fields[row - 1][col + 1].getMinesAround();
+				fields[row - 1][col + 1].setIcon(icons[mines]);
+				if (mines == 0) {
+					uncoverAroundCell(row - 1, col + 1);
+				}
+			}
+		}
+	}
+
 	private void uncover(int row, int col) {
 
 		if (fields[row][col].getBomb()) {
 			fields[row][col].setIcon(icons[9]);
-			return;
-		} else if (fields[row][col].getMinesAround() == 0) {
+		} else {
+			fields[row][col].setIcon(icons[fields[row][col].getMinesAround()]);
 
-			if (row != 8) {
-				if (fields[row + 1][col].getBomb() == false) {
-					int mines = fields[row + 1][col].getMinesAround();
-					fields[row + 1][col].setIcon(icons[mines]);
-					if (mines == 0) {
-						uncover(row + 1, col);
-					}
-				}
+			if (fields[row][col].getMinesAround() == 0) {
+				uncoverAroundCell(row, col);
 			}
-			if (row != 0) {
-				if (fields[row - 1][col].getBomb()) {
-					int mines = fields[row - 1][col].getMinesAround();
-					fields[row - 1][col].setIcon(icons[mines]);
-					if (mines == 0) {
-						uncover(row - 1, col);
-					}
-				}
-			}
-			if (col != 8) {
-				if (fields[row][col + 1].getBomb()) {
-					int mines = fields[row][col + 1].getMinesAround();
-					fields[row][col + 1].setIcon(icons[mines]);
-					if (mines == 0) {
-						uncover(row, col + 1);
-					}
-				}
-			}
-			if (col != 0) {
-				if (fields[row][col - 1].getBomb()) {
-					int mines = fields[row][col - 1].getMinesAround();
-					fields[row][col - 1].setIcon(icons[mines]);
-					if (mines == 0) {
-						uncover(row, col - 1);
-					}
-				}
-			}
-			if (row != 8 && col != 8) {
-				if (fields[row + 1][col + 1].getBomb()) {
-					int mines = fields[row + 1][col + 1].getMinesAround();
-					fields[row + 1][col + 1].setIcon(icons[mines]);
-					if (mines == 0) {
-						uncover(row + 1, col + 1);
-					}
-				}
-			}
-			if (row != 0 && col != 0) {
-				if (fields[row - 1][col - 1].getBomb()) {
-					int mines = fields[row - 1][col - 1].getMinesAround();
-					fields[row - 1][col - 1].setIcon(icons[mines]);
-					if (mines == 0) {
-						uncover(row - 1, col - 1);
-					}
-				}
-			}
-			if (row != 8 && col != 0) {
-				if (fields[row + 1][col - 1].getBomb()) {
-					int mines = fields[row + 1][col - 1].getMinesAround();
-					fields[row + 1][col - 1].setIcon(icons[mines]);
-					if (mines == 0) {
-						uncover(row + 1, col - 1);
-					}
-
-				}
-			}
-			if (row != 0 && col != 8) {
-				if (fields[row - 1][col + 1].getBomb()) {
-					int mines = fields[row - 1][col + 1].getMinesAround();
-					fields[row - 1][col + 1].setIcon(icons[mines]);
-					if (mines == 0) {
-						uncover(row - 1, col + 1);
-					}
-
-				}
-			}
-
 		}
-		fields[row][col].setIcon(icons[fields[row][col].getMinesAround()]);
 
 	}
 

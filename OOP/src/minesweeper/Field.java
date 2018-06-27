@@ -6,14 +6,14 @@ import javax.swing.*;
 public class Field extends JButton {
 
 	private int minesAround;
-	private boolean bomb;
-	private boolean flagged;
+	private boolean bomb = false;
+	private boolean flagged = false;
 
-	public boolean isFlagged() {
+	public boolean getFlagged() {
 		return flagged;
 	}
 
-	public void setFlag(boolean flagged) {
+	public void setFlagged(boolean flagged) {
 		this.flagged = true;
 	}
 
