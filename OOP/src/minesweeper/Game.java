@@ -1,10 +1,12 @@
 package minesweeper;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.event.*;
+import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 public class Game extends JFrame {
 
@@ -194,13 +196,11 @@ public class Game extends JFrame {
 		setTitle("minesweeper");
 		setLayout(new GridLayout(9, 9));
 		setSize(450, 450);
+		initImages();
+		newGame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setLocationRelativeTo(null);
-
-		initImages();
-		newGame();
-
 		setVisible(true);
 	}
 

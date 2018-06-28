@@ -1,6 +1,6 @@
 package myChess;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 
 public abstract class Figure {
 	private int row;

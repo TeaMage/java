@@ -1,7 +1,6 @@
 package lab01;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
 
 public class MyFrameB extends MyFrameA {
 	public void setLabels(String[] labels) {

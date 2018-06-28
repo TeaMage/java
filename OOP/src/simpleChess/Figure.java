@@ -1,9 +1,6 @@
 package simpleChess;
 
-import java.awt.event.*;
-import javax.swing.event.*;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
 
 public abstract class Figure {
 	private Board board;

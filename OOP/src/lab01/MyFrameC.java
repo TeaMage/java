@@ -1,6 +1,6 @@
 package lab01;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 public class MyFrameC extends MyFrameA {
 

@@ -1,6 +1,6 @@
 package lab01;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.util.Random;
 import java.util.Scanner;
 

@@ -1,7 +1,6 @@
 package minesweeper;
 
-import java.awt.*;
-import javax.swing.*;
+import javax.swing.JButton;
 
 public class Field extends JButton {
 

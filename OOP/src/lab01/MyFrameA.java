@@ -1,8 +1,9 @@
 package lab01;
 
 import java.awt.FlowLayout;
-import java.awt.event.*;
-import javax.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 public class MyFrameA extends JFrame {
 

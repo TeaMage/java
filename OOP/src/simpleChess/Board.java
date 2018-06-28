@@ -1,11 +1,11 @@
 package simpleChess;
 
-import java.awt.event.*;
-import javax.swing.event.*;
+import java.awt.Color;
+import java.awt.GridLayout;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.Arrays;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 public class Board extends JFrame {
 

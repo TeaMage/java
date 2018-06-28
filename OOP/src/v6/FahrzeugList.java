@@ -1,6 +1,6 @@
 package v6;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class FahrzeugList<T extends Auto> extends ArrayList<T> {
 	public T getFastest() {

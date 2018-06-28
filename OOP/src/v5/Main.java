@@ -1,8 +1,5 @@
 package v5;
 
-import java.io.*;
-
-
 // mit klassen arbeiten deren typ man nicht kennt
 // absolute pfade in software
 // klassen mit belibiegen typen

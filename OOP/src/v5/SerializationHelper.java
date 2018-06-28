@@ -1,9 +1,5 @@
 package v5;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 // generische klasse <> funktioniert vfür objekte von typ t
 public class SerializationHelper<T> {
 	private String path;
