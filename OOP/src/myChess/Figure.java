@@ -3,12 +3,12 @@ package myChess;
 import javax.swing.ImageIcon;
 
 public abstract class Figure {
-	private int row;
-	private int col;
-	private boolean player;
-	private boolean[][] moves = new boolean[8][8];
+	public Integer row;
+	public Integer col;
+	public boolean player;
+	public boolean[][] moves = new boolean[8][8];
 	private ImageIcon icon;
-	public Figure[] figures; 
+
 	public void setRow(int row) {
 		this.row = row;
 	}
@@ -37,14 +37,13 @@ public abstract class Figure {
 		return icon;
 	}
 
-	abstract void fillMoves(boolean player);
+	abstract void fillMoves();
 
-	public Figure(int row, int col, boolean player, ImageIcon icon, Figure[] figures) {
+	public Figure(int row, int col, boolean player, ImageIcon icon) {
 		this.row = row;
 		this.col = col;
 		this.player = player;
 		this.icon = icon;
-		this.figures = figures;
 	}
 
 }
