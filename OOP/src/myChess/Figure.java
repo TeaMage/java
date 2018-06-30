@@ -3,42 +3,21 @@ package myChess;
 import javax.swing.ImageIcon;
 
 public abstract class Figure {
+	public boolean hasMoved = false;
 	public Integer row;
 	public Integer col;
-	public boolean player;
+	public Boolean player;
 	public boolean[][] moves = new boolean[8][8];
-	private ImageIcon icon;
-
-	public void setRow(int row) {
-		this.row = row;
-	}
-
-	public int getRow() {
-		return row;
-	}
-
-	public void setCol(int col) {
-		this.col = col;
-	}
-
-	public int getCol() {
-		return col;
-	}
-
-	public boolean getPlayer() {
-		return player;
-	}
-
-	public boolean[][] getMoves() {
-		return moves;
-	}
-
-	public ImageIcon getIcon() {
-		return icon;
-	}
+	public ImageIcon icon;
 
 	public abstract void fillMoves();
-
+	public void emptyMoves() {
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8 ; j++) {
+				moves[i][j] = false;
+			}
+		}
+	}
 	public Figure(int row, int col, boolean player, ImageIcon icon) {
 		this.row = row;
 		this.col = col;

@@ -34,7 +34,7 @@ public class Board extends JFrame {
 	private void paint() {
 		for (int i = 0; i < 32; i++) {
 			if (figures[i] != null) {
-				fields[figures[i].getRow()][figures[i].getCol()].setIcon(figures[i].getIcon());
+				fields[figures[i].row][figures[i].col].setIcon(figures[i].icon);
 			}
 		}
 	}
@@ -105,8 +105,8 @@ public class Board extends JFrame {
 
 		if (getFigureByPosition(row, col) != null) {
 			if (player == getFigureByPosition(row, col).player) {
-				getFigureByPosition(row, col).fillMoves();
 				selectedFigure = getFigureByPosition(row, col);
+				selectedFigure.fillMoves();
 			}
 		}
 		return;
@@ -114,8 +114,10 @@ public class Board extends JFrame {
 
 	private Integer getFigureIndex(int row, int col) {
 		for (int i = 0; i < 32; i++) {
-			if (figures[i].row == row && figures[i].col == col) {
-				return i;
+			if (figures[i] != null) {
+				if (figures[i].row == row && figures[i].col == col) {
+					return i;
+				}
 			}
 		}
 		return null;
@@ -125,22 +127,28 @@ public class Board extends JFrame {
 		if (getFigureByPosition(row, col) != null) {
 			figures[getFigureIndex(row, col)] = null;
 		}
-		selectedFigure.setRow(row);
-		selectedFigure.setCol(col);
+		fields[selectedFigure.row][selectedFigure.col].setIcon(null);
+		selectedFigure.row = row;
+		selectedFigure.col = col;
 		if (player) {
 			player = false;
 		} else {
 			player = true;
 		}
-		fields[selectedFigure.row][selectedFigure.col].setIcon(null);
+		if (selectedFigure.hasMoved == false) {
+			selectedFigure.hasMoved = true;
+		}
+		selectedFigure.emptyMoves();
 		selectedFigure = null;
 		paint();
 	}
 
 	public static Figure getFigureByPosition(int row, int col) {
 		for (int i = 0; i < 32; i++) {
-			if (figures[i].getRow() == row && figures[i].getCol() == col) {
-				return figures[i];
+			if (figures[i] != null) {
+				if (figures[i].row == row && figures[i].col == col) {
+					return figures[i];
+				}
 			}
 		}
 		return null;
