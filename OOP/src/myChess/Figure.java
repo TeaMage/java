@@ -37,7 +37,7 @@ public abstract class Figure {
 		return icon;
 	}
 
-	abstract void fillMoves();
+	public abstract void fillMoves();
 
 	public Figure(int row, int col, boolean player, ImageIcon icon) {
 		this.row = row;

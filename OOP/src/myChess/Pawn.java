@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 
 public class Pawn extends Figure {
 	private boolean hasMoved = false;
+	private int row = getRow();
 
 	public void fillMoves() {
 		if (player) {
